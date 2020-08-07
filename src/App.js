@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Header from "./components/Header";
+import Form from "./components/Form";
+import ImageGrid from "./components/ImageGrid";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {connect} from "react-redux";
+import LoadingBar from "./components/LoadingBar";
+import Model from "./components/Model";
+
+function App({imgList, page, totalPage, selected}) {
+
+    return (
+        <div className="container">
+            <Header/>
+            <Form/>
+            <ImageGrid imgList={imgList}/>
+            {
+                page < totalPage &&
+                <LoadingBar />
+            }
+            {
+                selected && <Model />
+            }
+        </div>
+    );
 }
 
-export default App;
+const mapStateToProps = state => {
+    const {imgList, page, totalPage, selected} = state;
+    return {imgList, page, totalPage, selected};
+}
+export default connect(mapStateToProps)(App);
